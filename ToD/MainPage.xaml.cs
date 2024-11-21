@@ -20,8 +20,8 @@
                 PasswordEntry.Placeholder = "vul iets in";
             }
             else
-            { 
-
+            {
+                Navigation.PushAsync(new NewPage());
             }
 
         }
