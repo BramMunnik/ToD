@@ -27,6 +27,7 @@
                 HorizontalOptions="Center"/>
             <Entry
                 x:Name="UsernameEntry"
+                TextColor="#FAF3E1"
                 Placeholder="Username here"
                 HorizontalOptions="Center"/>
             <Label
@@ -35,6 +36,7 @@
                 HorizontalOptions="Center"/>
             <Entry
                 x:Name="PasswordEntry"
+                TextColor="#FAF3E1"
                 Placeholder="Password here"
                 HorizontalOptions="Center"
                 IsPassword="True"/>
