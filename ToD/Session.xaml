@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="ToD.Session"
+             Title="Session">
+    <VerticalStackLayout Spacing="10" Padding="20" HorizontalOptions="Center" VerticalOptions="Center">
+        <!-- QR Code -->
+        <Image Source="qrcode_placeholder.png" WidthRequest="150" HeightRequest="150" />
+
+        <Label Text="leden" 
+               BackgroundColor="LightGray" 
+               HorizontalTextAlignment="Center"
+               FontSize="Medium" />
+
+        <!-- Members List -->
+        <StackLayout>
+            <Label Text="jan pieter" FontSize="Medium" />
+            <Label Text="Mark S" FontSize="Medium" />
+        </StackLayout>
+
+        <!-- Questions Button -->
+        <Button Text="Questions" 
+                BackgroundColor="LightGray" 
+                TextColor="Black" 
+                HorizontalOptions="Fill" />
+
+        <!-- Start Button -->
+        <Button Text="start" 
+                BackgroundColor="Green" 
+                TextColor="White" 
+                HorizontalOptions="Fill" />
+    </VerticalStackLayout>
+</ContentPage>
