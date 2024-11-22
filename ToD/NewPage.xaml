@@ -3,11 +3,11 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="ToD.NewPage"
              Title="NewPage">
+    
     <VerticalStackLayout Padding="20" Spacing="15" VerticalOptions="Center">
-        <Label Text="Welcome to NewPage!" 
-               FontSize="Medium" 
+        <Label Text="Truth or Drink" 
+               FontSize="Header" 
                HorizontalOptions="Center" />
-
         <Button Text="Go to Session" 
                 BackgroundColor="#FF6E1F" 
                 TextColor="White" 
