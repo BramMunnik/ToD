@@ -14,13 +14,19 @@
                 TextColor="Black"
                 HorizontalOptions="Fill" />
 
+        <Label Text="Gewaagdheid" FontSize="Large" HorizontalOptions="Center" />
         <!-- Star Ratings -->
         <HorizontalStackLayout HorizontalOptions="Center" Spacing="10">
-            <Image Source="star_empty.png" WidthRequest="30" HeightRequest="30" />
-            <Image Source="star_empty.png" WidthRequest="30" HeightRequest="30" />
-            <Image Source="star_empty.png" WidthRequest="30" HeightRequest="30" />
-            <Image Source="star_empty.png" WidthRequest="30" HeightRequest="30" />
-            <Image Source="star_empty.png" WidthRequest="30" HeightRequest="30" />
+            <ImageButton x:Name="Star1" StyleId="1" Source="star_empty.png" 
+                 Clicked="StarClicked" WidthRequest="30" HeightRequest="30" />
+            <ImageButton x:Name="Star2" StyleId="2" Source="star_empty.png" 
+                 Clicked="StarClicked" WidthRequest="30" HeightRequest="30" />
+            <ImageButton x:Name="Star3" StyleId="3" Source="star_empty.png" 
+                 Clicked="StarClicked" WidthRequest="30" HeightRequest="30" />
+            <ImageButton x:Name="Star4" StyleId="4" Source="star_empty.png" 
+                 Clicked="StarClicked" WidthRequest="30" HeightRequest="30" />
+            <ImageButton x:Name="Star5" StyleId="5" Source="star_empty.png" 
+                 Clicked="StarClicked" WidthRequest="30" HeightRequest="30" />
         </HorizontalStackLayout>
 
         <!-- Custom Questions Button -->
