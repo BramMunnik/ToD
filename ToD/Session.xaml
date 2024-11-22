@@ -19,7 +19,9 @@
         </StackLayout>
 
         <!-- Questions Button -->
-        <Button Text="Questions" 
+        <Button x:Name="Questions"
+                Text="Questions"
+                Clicked="Questions_Clicked" 
                 BackgroundColor="LightGray" 
                 TextColor="Black" 
                 HorizontalOptions="Fill" />

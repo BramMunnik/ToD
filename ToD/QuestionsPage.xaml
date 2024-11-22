@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="ToD.QuestionsPage"
+             Title="Truth or Drink"
+             BackgroundColor="White">
+    <VerticalStackLayout Spacing="20" Padding="20" HorizontalOptions="Center" VerticalOptions="Center">
+        <!-- Title -->
+        <Label Text="Truth or drink" FontSize="Large" HorizontalOptions="Center" />
+
+        <!-- Recommended Questions Button -->
+        <Button Text="Recommended questions"
+                BackgroundColor="LightGray"
+                TextColor="Black"
+                HorizontalOptions="Fill" />
+
+        <!-- Star Ratings -->
+        <HorizontalStackLayout HorizontalOptions="Center" Spacing="10">
+            <Image Source="star_empty.png" WidthRequest="30" HeightRequest="30" />
+            <Image Source="star_empty.png" WidthRequest="30" HeightRequest="30" />
+            <Image Source="star_empty.png" WidthRequest="30" HeightRequest="30" />
+            <Image Source="star_empty.png" WidthRequest="30" HeightRequest="30" />
+            <Image Source="star_empty.png" WidthRequest="30" HeightRequest="30" />
+        </HorizontalStackLayout>
+
+        <!-- Custom Questions Button -->
+        <Button Text="Custom questions"
+                BackgroundColor="LightGray"
+                TextColor="Black"
+                HorizontalOptions="Fill" />
+
+        <!-- Save Button -->
+        <Button Text="Save"
+                BackgroundColor="LightGray"
+                TextColor="Black"
+                HorizontalOptions="Fill" />
+    </VerticalStackLayout>
+</ContentPage>
