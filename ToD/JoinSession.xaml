@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="ToD.JoinSession"
+             Title="JoinSession"
+             BackgroundColor="White">
+    <StackLayout VerticalOptions="Center" HorizontalOptions="Center" Spacing="20">
+
+        <Label Text="Truth or Drink"
+               FontSize="30"
+               HorizontalOptions="Center" />
+
+        <!-- Scan QR -->
+        <StackLayout HorizontalOptions="Center">
+            <Image Source="qr_icon.png"
+                   HeightRequest="100"
+                   WidthRequest="100"
+                   HorizontalOptions="Center" />
+            <Label Text="scan qr"
+                   FontSize="16"
+                   HorizontalOptions="Center" />
+        </StackLayout>
+
+        <!-- Room code invoer -->
+        <StackLayout HorizontalOptions="Center" WidthRequest="200">
+            <Label Text="enter room code"
+                   FontSize="16"
+                   HorizontalOptions="Start" />
+            <Entry Placeholder="room code"
+                   BackgroundColor="#E0E0E0"
+                   HorizontalOptions="FillAndExpand" />
+        </StackLayout>
+
+        <!-- Join knop -->
+        <Button Text="Join"
+                BackgroundColor="#E0E0E0"
+                TextColor="Black"
+                WidthRequest="150"
+                HeightRequest="50"
+                HorizontalOptions="Center" />
+    </StackLayout>
+</ContentPage>

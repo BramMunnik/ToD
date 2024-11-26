@@ -15,8 +15,8 @@ namespace ToD
 
         private async void JoinSessionButton_Clicked(object sender, EventArgs e)
         {
-            // Navigeren naar de Session-pagina
-            await Navigation.PushAsync(new Session());
+            // Navigeren naar de join Session-pagina
+            await Navigation.PushAsync(new JoinSession());
         }
     }
 }
