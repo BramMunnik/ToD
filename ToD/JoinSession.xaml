@@ -33,10 +33,12 @@
 
         <!-- Join knop -->
         <Button Text="Join"
+                x:Name="JoinButton"
                 BackgroundColor="#E0E0E0"
                 TextColor="Black"
                 WidthRequest="150"
                 HeightRequest="50"
+                Clicked="JoinName_Clicked"
                 HorizontalOptions="Center" />
     </StackLayout>
 </ContentPage>
