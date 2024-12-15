@@ -61,7 +61,9 @@
                 HorizontalOptions="Fill" />
 
         <!-- Start Button -->
-        <Button Text="Start" 
+        <Button x:Name="Start"
+                Text="Start" 
+                Clicked="Start_Clicked" 
                 BackgroundColor="Green" 
                 TextColor="White" 
                 HorizontalOptions="Fill" />

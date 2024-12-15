@@ -46,5 +46,10 @@ namespace ToD
         {
             Navigation.PushAsync(new QuestionsPage());
         }
+
+        private void Start_Clicked(object sender, EventArgs e)
+        {
+            Navigation.PushAsync(new GamePage(ViewModel.Members));
+        }
     }
 }

@@ -8,6 +8,7 @@ namespace ToD
     {
         private ObservableCollection<string> _members;
 
+
         public ObservableCollection<string> Members
         {
             get { return _members; }
