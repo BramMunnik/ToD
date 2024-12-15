@@ -67,6 +67,9 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <MauiXaml Update="GamePage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
 	  <MauiXaml Update="JoinEnterName.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>

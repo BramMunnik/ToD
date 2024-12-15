@@ -1,24 +1,16 @@
 using Microsoft.Maui.Controls;
-using System.Collections.ObjectModel;
 
 namespace ToD
 {
     public partial class Session : ContentPage
     {
-        // ObservableCollection houdt de leden bij
-        private ObservableCollection<string> _members;
+        public SessionViewModel ViewModel { get; set; }
 
         public Session()
         {
             InitializeComponent();
-
-            // Initialiseer de lijst met leden
-            _members = new ObservableCollection<string>
-            {
-            };
-
-            // Koppel de lijst aan de ListView
-            MembersListView.ItemsSource = _members;
+            ViewModel = new SessionViewModel();
+            BindingContext = ViewModel;
         }
 
         // Methode om een nieuw lid toe te voegen
@@ -26,10 +18,7 @@ namespace ToD
         {
             if (!string.IsNullOrWhiteSpace(MemberEntry.Text))
             {
-                // Voeg nieuw lid toe aan de lijst
-                _members.Add(MemberEntry.Text);
-
-                // Reset het invoerveld
+                ViewModel.AddMember(MemberEntry.Text);
                 MemberEntry.Text = string.Empty;
             }
         }
@@ -38,24 +27,17 @@ namespace ToD
         private void OnRemoveMemberClicked(object sender, EventArgs e)
         {
             var member = (string)((Button)sender).CommandParameter;
-            if (_members.Contains(member))
-            {
-                _members.Remove(member);
-            }
+            ViewModel.RemoveMember(member);
         }
 
-        // Methode om een lid te bewerken (naam aanpassen)
+        // Methode om een lid te bewerken
         private async void OnEditMemberClicked(object sender, EventArgs e)
         {
             var member = (string)((Button)sender).CommandParameter;
             var newName = await DisplayPromptAsync("Bewerk naam", "Voer nieuwe naam in:", initialValue: member);
             if (!string.IsNullOrWhiteSpace(newName))
             {
-                var index = _members.IndexOf(member);
-                if (index != -1)
-                {
-                    _members[index] = newName;
-                }
+                ViewModel.EditMember(member, newName);
             }
         }
 
