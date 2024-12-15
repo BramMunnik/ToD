@@ -7,23 +7,16 @@
             InitializeComponent();
         }
 
-        private void LogInButton_Clicked(object sender, EventArgs e)
+        private async void GoToSessionButton_Clicked(object sender, EventArgs e)
         {
-            bool isUsernameEmpty = string.IsNullOrEmpty(UsernameEntry.Text);
-            bool isPasswordEmpty = string.IsNullOrEmpty(PasswordEntry.Text);
-        
-            if (isUsernameEmpty)
-            {
-                UsernameEntry.Placeholder = "vul iets in";
-            } else if (isPasswordEmpty)
-            {
-                PasswordEntry.Placeholder = "vul iets in";
-            }
-            else
-            {
-                Navigation.PushAsync(new NewPage());
-            }
+            // Navigeren naar de Session-pagina
+            await Navigation.PushAsync(new Session());
+        }
 
+        private async void JoinSessionButton_Clicked(object sender, EventArgs e)
+        {
+            // Navigeren naar de join Session-pagina
+            await Navigation.PushAsync(new JoinSession());
         }
     }
 }

@@ -73,9 +73,6 @@
 	  <MauiXaml Update="JoinSession.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	  <MauiXaml Update="NewPage.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </MauiXaml>
 	  <MauiXaml Update="Wait.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>

@@ -3,52 +3,20 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="ToD.MainPage"
              BackgroundColor="#222222">
-
-    <ContentPage.Resources>
-        <Style TargetType="Label">
-            <Setter Property="TextColor" Value="#FAF3E1" />
-        </Style>
-    </ContentPage.Resources>
-
-    <StackLayout Margin="20">
-
-        <Label Text="Truth or Drink"
-                TextColor="#FF6E1F"
-                FontSize="36"/>
-
-        <StackLayout
-            Spacing="25"
-            Padding="30,0"
-            VerticalOptions="CenterAndExpand">
-
-            <Label
-                x:Name="UsernameLabel"
-                Text="Username:"
-                HorizontalOptions="Center"/>
-            <Entry
-                x:Name="UsernameEntry"
-                TextColor="#FAF3E1"
-                Placeholder="Username here"
-                HorizontalOptions="Center"/>
-            <Label
-                x:Name="PasswordLabel"
-                Text="Password:"
-                HorizontalOptions="Center"/>
-            <Entry
-                x:Name="PasswordEntry"
-                TextColor="#FAF3E1"
-                Placeholder="Password here"
+    
+    <VerticalStackLayout Padding="20" Spacing="15" VerticalOptions="Center">
+        <Label Text="Truth or Drink" 
+               FontSize="Header" 
+               HorizontalOptions="Center" />
+        <Button Text="Create new session" 
+                BackgroundColor="#FF6E1F" 
+                TextColor="White" 
                 HorizontalOptions="Center"
-                IsPassword="True"/>
-            <Button
-                x:Name="LogInButton"
-                Text="Log In"
-                Clicked="LogInButton_Clicked"
-                Margin="0,40,0,0"
-                TextColor="#FAF3E1"
+                Clicked="GoToSessionButton_Clicked" />
+        <Button Text="Join session" 
+                BackgroundColor="#FF6E1F" 
+                TextColor="White" 
                 HorizontalOptions="Center"
-                BackgroundColor="#FF6E1F"/>
-
-        </StackLayout>
-    </StackLayout>
+                Clicked="JoinSessionButton_Clicked" />
+    </VerticalStackLayout>
 </ContentPage>
