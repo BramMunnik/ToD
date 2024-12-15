@@ -4,19 +4,47 @@
              x:Class="ToD.Session"
              Title="Session">
     <VerticalStackLayout Spacing="10" Padding="20" HorizontalOptions="Center" VerticalOptions="Center">
-        <!-- QR Code -->
-        <Image Source="qrcode_placeholder.png" WidthRequest="150" HeightRequest="150" />
 
-        <Label Text="leden" 
+        <!-- QR Code -->
+        <Image Source="qrcode_placeholder.png" WidthRequest="250" HeightRequest="250" />
+
+        <!-- Titel leden -->
+        <Label Text="Leden" 
                BackgroundColor="LightGray" 
                HorizontalTextAlignment="Center"
                FontSize="Medium" />
 
-        <!-- Members List -->
-        <StackLayout>
-            <Label Text="jan pieter" FontSize="Medium" />
-            <Label Text="Mark S" FontSize="Medium" />
-        </StackLayout>
+        <!-- Toevoegen van leden -->
+        <HorizontalStackLayout>
+            <Entry x:Name="MemberEntry" Placeholder="Voer naam in" WidthRequest="200" />
+            <Button Text="+" 
+                    BackgroundColor="#AAAAAA" 
+                    TextColor="White" 
+                    Clicked="OnAddMemberClicked" />
+        </HorizontalStackLayout>
+
+        <!-- Dynamische lijst van leden -->
+        <ListView x:Name="MembersListView" Margin="0,10,0,10" HeightRequest="150">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <ViewCell>
+                        <StackLayout Orientation="Horizontal" Padding="10">
+                            <Label Text="{Binding}" FontSize="Medium" VerticalOptions="CenterAndExpand" />
+
+                            <!-- Bewerken knop -->
+                            <Button Text="Bewerken" BackgroundColor="Yellow" TextColor="Black" 
+                                    WidthRequest="80" Clicked="OnEditMemberClicked" 
+                                    CommandParameter="{Binding}" VerticalOptions="Center" />
+
+                            <!-- Verwijder knop -->
+                            <Button Text="Verwijderen" BackgroundColor="Red" TextColor="White" 
+                                    WidthRequest="100" Clicked="OnRemoveMemberClicked" 
+                                    CommandParameter="{Binding}" VerticalOptions="Center" />
+                        </StackLayout>
+                    </ViewCell>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
 
         <!-- Questions Button -->
         <Button x:Name="Questions"
@@ -27,9 +55,10 @@
                 HorizontalOptions="Fill" />
 
         <!-- Start Button -->
-        <Button Text="start" 
+        <Button Text="Start" 
                 BackgroundColor="Green" 
                 TextColor="White" 
                 HorizontalOptions="Fill" />
+
     </VerticalStackLayout>
 </ContentPage>
