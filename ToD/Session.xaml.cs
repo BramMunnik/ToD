@@ -33,11 +33,28 @@ namespace ToD
         // Methode om een lid te bewerken
         private async void OnEditMemberClicked(object sender, EventArgs e)
         {
-            var member = (string)((Button)sender).CommandParameter;
-            var newName = await DisplayPromptAsync("Bewerk naam", "Voer nieuwe naam in:", initialValue: member);
-            if (!string.IsNullOrWhiteSpace(newName))
+            try
             {
-                ViewModel.EditMember(member, newName);
+                var member = (string)((Button)sender).CommandParameter;
+                var newName = await DisplayPromptAsync("Bewerk naam", "Voer nieuwe naam in:", initialValue: member);
+
+                if (!string.IsNullOrWhiteSpace(newName) && newName != member)
+                {
+                    // Controleer of de naam al bestaat
+                    if (ViewModel.Members.Contains(newName))
+                    {
+                        await DisplayAlert("Fout", "De naam bestaat al. Kies een andere naam.", "OK");
+                        return;
+                    }
+
+                    ViewModel.EditMember(member, newName);
+                }
+            }
+            catch (Exception ex)
+            {
+                // Log de fout en toon een melding
+                Console.WriteLine($"Fout bij het bewerken van de naam: {ex.Message}");
+                await DisplayAlert("Fout", "Er is een fout opgetreden bij het bewerken van de naam.", "OK");
             }
         }
 
