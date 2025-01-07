@@ -67,16 +67,16 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <MauiXaml Update="GamePage.xaml">
+	  <MauiXaml Update="View\GamePage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	  <MauiXaml Update="JoinEnterName.xaml">
+	  <MauiXaml Update="View\JoinEnterName.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	  <MauiXaml Update="JoinSession.xaml">
+	  <MauiXaml Update="View\JoinSession.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	  <MauiXaml Update="Wait.xaml">
+	  <MauiXaml Update="View\Wait.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	</ItemGroup>

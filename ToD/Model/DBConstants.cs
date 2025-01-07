@@ -11,7 +11,7 @@ namespace ToD
             SQLiteOpenFlags.Create |
             SQLiteOpenFlags.SharedCache;
 
-        // Het volledige pad naar de database
+        // Het pad naar de database
         public static string DatabasePath =>
             Path.Combine(FileSystem.AppDataDirectory, DBFileName);
     }

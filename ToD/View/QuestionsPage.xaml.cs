@@ -12,7 +12,7 @@ namespace ToD
             if (sender is ImageButton clickedStar)
             {
                 // Haal de sterindex op (bijv. Star1, Star2, ...)
-                string starName = clickedStar.StyleId; // Of gebruik .x:Name als je die hier verwerkt
+                string starName = clickedStar.StyleId; 
                 int starIndex = int.Parse(starName.Replace("Star", ""));
 
                 // Verander de sterren

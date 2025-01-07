@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ToD
+namespace ToD.Model
 {
     public class Users
     {
@@ -82,7 +82,7 @@ namespace ToD
         }
 
     }
-    
+
     public class TemporaryStorages
     {
         public class TemporaryStorage

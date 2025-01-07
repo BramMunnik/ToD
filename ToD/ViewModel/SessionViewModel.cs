@@ -2,7 +2,7 @@
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 
-namespace ToD
+namespace ToD.ViewModel
 {
     public class SessionViewModel : INotifyPropertyChanged
     {

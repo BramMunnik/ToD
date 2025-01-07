@@ -2,12 +2,15 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:local="clr-namespace:ToD"
+             xmlns:viewModel="clr-namespace:ToD.ViewModel"
              x:Class="ToD.Session"
              Title="Session">
 
+
     <ContentPage.BindingContext>
-        <local:SessionViewModel />
+        <viewModel:SessionViewModel />
     </ContentPage.BindingContext>
+
 
     <VerticalStackLayout Spacing="10" Padding="20" HorizontalOptions="Center" VerticalOptions="Center">
 
