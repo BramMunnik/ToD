@@ -8,16 +8,8 @@ namespace ToD.ViewModel
     {
         private ObservableCollection<string> _members;
 
+        public ObservableCollection<string> Members { get; set; } = new ObservableCollection<string>();
 
-        public ObservableCollection<string> Members
-        {
-            get { return _members; }
-            set
-            {
-                _members = value;
-                OnPropertyChanged();
-            }
-        }
 
         public SessionViewModel()
         {
@@ -26,7 +18,7 @@ namespace ToD.ViewModel
 
         public void AddMember(string member)
         {
-            if (!string.IsNullOrWhiteSpace(member))
+            if (!string.IsNullOrWhiteSpace(member) && !Members.Contains(member))
             {
                 Members.Add(member);
             }
@@ -46,7 +38,6 @@ namespace ToD.ViewModel
 
             if (index != -1 && !string.IsNullOrWhiteSpace(newName))
             {
-                // Controleer of de nieuwe naam al bestaat in de lijst
                 if (Members.Contains(newName))
                 {
                     throw new InvalidOperationException("De nieuwe naam bestaat al in de lijst.");

@@ -1,3 +1,5 @@
+using System;
+
 namespace ToD
 {
     public partial class QuestionsPage : ContentPage
@@ -6,36 +8,45 @@ namespace ToD
         {
             InitializeComponent();
         }
+
+        // Event: Star rating clicked
         private void StarClicked(object sender, EventArgs e)
         {
-            // Controleer op welk sterretje is geklikt
             if (sender is ImageButton clickedStar)
             {
-                // Haal de sterindex op (bijv. Star1, Star2, ...)
-                string starName = clickedStar.StyleId; 
-                int starIndex = int.Parse(starName.Replace("Star", ""));
+                string starName = clickedStar.StyleId; // Get the StyleId (e.g., "1", "2", ...)
+                int starIndex = int.Parse(starName);
 
-                // Verander de sterren
+                // Update the stars based on the clicked index
                 UpdateStars(starIndex);
             }
         }
 
         private void UpdateStars(int selectedStarIndex)
         {
-            // Loop door alle sterren en pas ze aan
             for (int i = 1; i <= 5; i++)
             {
                 var star = (ImageButton)this.FindByName($"Star{i}");
-                if (i <= selectedStarIndex)
-                {
-                    star.Source = "star_filled.png"; // Gevulde ster
-                }
-                else
-                {
-                    star.Source = "star_empty.png"; // Lege ster
-                }
+                star.Source = i <= selectedStarIndex ? "star_filled.png" : "star_empty.png";
             }
         }
-    }
 
+        // Event: Recommended Questions button clicked
+        private async void RecommendedQuestionsClicked(object sender, EventArgs e)
+        {
+            await DisplayAlert("Recommended Questions", "Hier kun je aanbevolen vragen selecteren.", "OK");
+        }
+
+        // Event: Custom Questions button clicked
+        private async void CustomQuestionsClicked(object sender, EventArgs e)
+        {
+            await DisplayAlert("Custom Questions", "Hier kun je je eigen vragen toevoegen.", "OK");
+        }
+
+        // Event: Save button clicked
+        private async void SaveClicked(object sender, EventArgs e)
+        {
+            await DisplayAlert("Saved", "Je voorkeuren zijn opgeslagen!", "OK");
+        }
+    }
 }

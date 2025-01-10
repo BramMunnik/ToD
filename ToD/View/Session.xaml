@@ -1,25 +1,22 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:local="clr-namespace:ToD"
              xmlns:viewModel="clr-namespace:ToD.ViewModel"
              x:Class="ToD.Session"
              Title="Session">
-
 
     <ContentPage.BindingContext>
         <viewModel:SessionViewModel />
     </ContentPage.BindingContext>
 
-
-    <VerticalStackLayout Spacing="10" Padding="20" HorizontalOptions="Center" VerticalOptions="Center">
+    <VerticalStackLayout Spacing="10" Padding="20" HorizontalOptions="Fill" VerticalOptions="Fill">
 
         <!-- QR Code -->
-        <Image Source="qrcode_placeholder.png" WidthRequest="250" HeightRequest="250" />
+        <Image Source="qrcode_placeholder.png" WidthRequest="250" HeightRequest="250" HorizontalOptions="Center" />
 
         <!-- Titel leden -->
-        <Label Text="Leden" 
-               BackgroundColor="LightGray" 
+        <Label Text="Leden"
+               BackgroundColor="LightGray"
                HorizontalTextAlignment="Center"
                FontSize="Medium" />
 

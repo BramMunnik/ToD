@@ -1,73 +1,75 @@
-using Microsoft.Maui.Controls;
+using System;
 using ToD.ViewModel;
 
 namespace ToD
 {
     public partial class Session : ContentPage
     {
-        public SessionViewModel ViewModel { get; set; }
+        private SessionViewModel ViewModel => BindingContext as SessionViewModel;
 
         public Session()
         {
             InitializeComponent();
-            ViewModel = new SessionViewModel();
-            BindingContext = ViewModel;
         }
 
-        // Methode om een nieuw lid toe te voegen
         private void OnAddMemberClicked(object sender, EventArgs e)
         {
-            if (!string.IsNullOrWhiteSpace(MemberEntry.Text))
+            string memberName = MemberEntry.Text;
+
+            if (!string.IsNullOrWhiteSpace(memberName))
             {
-                ViewModel.AddMember(MemberEntry.Text);
-                MemberEntry.Text = string.Empty;
+                ViewModel.AddMember(memberName);
+                MemberEntry.Text = string.Empty; // Clear the input field
             }
         }
 
-        // Methode om een lid te verwijderen
-        private void OnRemoveMemberClicked(object sender, EventArgs e)
-        {
-            var member = (string)((Button)sender).CommandParameter;
-            ViewModel.RemoveMember(member);
-        }
-
-        // Methode om een lid te bewerken
         private async void OnEditMemberClicked(object sender, EventArgs e)
         {
-            try
+            string oldName = (string)((Button)sender).CommandParameter;
+
+            string newName = await DisplayPromptAsync("Bewerk Lid", $"Wijzig de naam van {oldName}:", initialValue: oldName);
+
+            if (!string.IsNullOrWhiteSpace(newName))
             {
-                var member = (string)((Button)sender).CommandParameter;
-                var newName = await DisplayPromptAsync("Bewerk naam", "Voer nieuwe naam in:", initialValue: member);
-
-                if (!string.IsNullOrWhiteSpace(newName) && newName != member)
+                try
                 {
-                    // Controleer of de naam al bestaat
-                    if (ViewModel.Members.Contains(newName))
-                    {
-                        await DisplayAlert("Fout", "De naam bestaat al. Kies een andere naam.", "OK");
-                        return;
-                    }
-
-                    ViewModel.EditMember(member, newName);
+                    ViewModel.EditMember(oldName, newName);
+                }
+                catch (InvalidOperationException ex)
+                {
+                    await DisplayAlert("Fout", ex.Message, "OK");
                 }
             }
-            catch (Exception ex)
+        }
+
+        private async void OnRemoveMemberClicked(object sender, EventArgs e)
+        {
+            string memberName = (string)((Button)sender).CommandParameter;
+
+            bool confirm = await DisplayAlert("Bevestig", $"Weet je zeker dat je {memberName} wilt verwijderen?", "Ja", "Nee");
+
+            if (confirm)
             {
-                // Log de fout en toon een melding
-                Console.WriteLine($"Fout bij het bewerken van de naam: {ex.Message}");
-                await DisplayAlert("Fout", "Er is een fout opgetreden bij het bewerken van de naam.", "OK");
+                ViewModel.RemoveMember(memberName);
             }
         }
 
-        // Methode om naar de QuestionsPage te navigeren
-        private void Questions_Clicked(object sender, EventArgs e)
+        private async void Questions_Clicked(object sender, EventArgs e)
         {
-            Navigation.PushAsync(new QuestionsPage());
+            await Navigation.PushAsync(new QuestionsPage());
         }
 
-        private void Start_Clicked(object sender, EventArgs e)
+        private async void Start_Clicked(object sender, EventArgs e)
         {
-            Navigation.PushAsync(new GamePage(ViewModel.Members));
+            var members = ViewModel.Members; // Assuming ViewModel.Members is an ObservableCollection<string>
+            if (members.Count == 0)
+            {
+                await DisplayAlert("Fout", "Voeg ten minste één lid toe om het spel te starten.", "OK");
+                return;
+            }
+
+            await Navigation.PushAsync(new GamePage(members));
         }
+
     }
 }
