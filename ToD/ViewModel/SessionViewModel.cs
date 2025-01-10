@@ -111,6 +111,16 @@ namespace ToD.ViewModel
             // Sla de sessie op in de database
             await _databaseService.SaveItemAsync(session);
         }
+        public async Task ClearAllMembersAsync()
+        {
+            var users = await _databaseService.GetItemsAsync<User>();
+            foreach (var user in users)
+            {
+                await _databaseService.DeleteItemAsync(user);
+            }
+
+            Members.Clear(); // Ook de lokale lijst in de ViewModel leegmaken
+        }
 
     }
 }
