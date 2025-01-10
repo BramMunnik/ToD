@@ -1,108 +1,115 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace ToD.Model
 {
-    public class Users
+    public class User
     {
-        public class User
-        {
-            public string Name { get; set; }
-            public Guid TemporaryId { get; set; }  // Gebruik een GUID voor de tijdelijke ID
-            public Preferences Preferences { get; set; }
-        }
+        [Key]
+        public Guid UserID { get; set; }
 
-        public class Preferences
-        {
-            public List<string> SelectedCategories { get; set; }
-            public int RiskLevel { get; set; }  // 1-5 schaal
-        }
-    }
-    public class Sessions
-    {
-        public class Session
-        {
-            public Guid SessionId { get; set; }
-            public string HostName { get; set; }
-            public List<Participant> Participants { get; set; }
-            public SessionSettings Settings { get; set; }
-            public string QrCode { get; set; }
-        }
+        [Required]
+        public string Name { get; set; }
 
-        public class Participant
-        {
-            public string UserName { get; set; }
-            public Guid TemporaryId { get; set; }
-        }
-
-        public class SessionSettings
-        {
-            public List<string> SelectedCategories { get; set; }
-            public int RiskLevel { get; set; }  // 1-5 schaal
-            public List<Question> QuestionPool { get; set; }
-        }
-
-        public class Question
-        {
-            public string QuestionText { get; set; }
-            public string Category { get; set; }
-            public int RiskLevel { get; set; }  // 1-5 schaal
-        }
-
-    }
-    public class GameDatas
-    {
-        public class GameData
-        {
-            public List<StandardQuestion> StandardQuestions { get; set; }
-            public List<PersonalizedQuestion> PersonalizedQuestions { get; set; }
-            public List<QuestionType> QuestionTypes { get; set; }
-        }
-
-        public class StandardQuestion
-        {
-            public string QuestionText { get; set; }
-            public string Category { get; set; }
-            public int RiskLevel { get; set; }  // 1-5 schaal
-        }
-
-        public class PersonalizedQuestion : StandardQuestion
-        {
-            public Guid CreatedBy { get; set; }  // UUID of user who created the question
-        }
-
-        public class QuestionType
-        {
-            public string TextQuestion { get; set; }
-            public string PhotoQuestion { get; set; }
-            public string Task { get; set; }
-        }
-
+        // Navigation property: one user can host many sessions
+        public ICollection<Session> Sessions { get; set; }
     }
 
-    public class TemporaryStorages
+    public class Session
     {
-        public class TemporaryStorage
-        {
-            public ActiveQuestion ActiveQuestion { get; set; }
-            public GameStatus GameStatus { get; set; }
-        }
+        [Key]
+        public Guid SessionID { get; set; }
 
-        public class ActiveQuestion
-        {
-            public string QuestionText { get; set; }
-            public string Category { get; set; }
-            public int RiskLevel { get; set; }  // 1-5 schaal
-        }
+        [Required]
+        [ForeignKey(nameof(User))]
+        public Guid HostID { get; set; }
 
-        public class GameStatus
-        {
-            public Guid CurrentPlayerId { get; set; }
-            public List<string> TurnOrder { get; set; }
-        }
+        public User Host { get; set; }
 
+        [Required]
+        public string SelectedCategories { get; set; } // JSON string of categories
+
+        [Range(1, 5)]
+        public int DaringLevel { get; set; }
+
+        [Required]
+        public string QuestionPool { get; set; } // JSON string of QuestionIDs
+
+        public string QRCode { get; set; }
+
+        // Navigation property
+        public ICollection<Participant> Participants { get; set; }
+    }
+
+    public class Participant
+    {
+        [Key]
+        public Guid ParticipantID { get; set; }
+
+        [Required]
+        [ForeignKey(nameof(Session))]
+        public Guid SessionID { get; set; }
+
+        public Session Session { get; set; }
+
+        [ForeignKey(nameof(User))]
+        public Guid? UserID { get; set; } // Nullable for anonymous users
+
+        public User User { get; set; }
+
+        [Required]
+        public Guid TemporaryID { get; set; }
+    }
+
+    public class GameData
+    {
+        [Key]
+        public Guid QuestionID { get; set; }
+
+        [Required]
+        public string QuestionText { get; set; }
+
+        [Required]
+        public string Category { get; set; }
+
+        [Range(1, 5)]
+        public int DaringLevel { get; set; }
+
+        [ForeignKey(nameof(User))]
+        public Guid? CreatedBy { get; set; }
+
+        public User Creator { get; set; }
+
+        [Required]
+        public string QuestionType { get; set; }
+
+        public string PhotoLink { get; set; }
+    }
+
+    public class TemporaryStorage
+    {
+        [Key]
+        [ForeignKey(nameof(Session))]
+        public Guid SessionID { get; set; }
+
+        public Session Session { get; set; }
+
+        [ForeignKey(nameof(GameData))]
+        public Guid? ActiveQuestionID { get; set; }
+
+        public GameData ActiveQuestion { get; set; }
+
+        [ForeignKey(nameof(User))]
+        public Guid? CurrentPlayerID { get; set; }
+
+        public User CurrentPlayer { get; set; }
+
+        [Required]
+        public string TurnOrder { get; set; } // JSON array of UserIDs or TemporaryIDs
     }
 }
