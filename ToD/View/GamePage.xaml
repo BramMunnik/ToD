@@ -21,14 +21,19 @@
                    HorizontalTextAlignment="Center" />
         </Frame>
 
-        <Button Text="Next"
+        <Button Text="Truth"
                 BackgroundColor="DarkGray"
                 TextColor="White"
-                Clicked="OnNextClicked" />
+                Command="{Binding ChooseTruthCommand}" />
+
+        <Button Text="Drink"
+        BackgroundColor="DarkGray"
+        TextColor="White"
+        Command="{Binding ChooseDrinkCommand}" />
 
         <Button Text="End Game"
                 BackgroundColor="DarkGray"
                 TextColor="White"
-                Clicked="OnEndGameClicked" />
+                Command="{Binding EndGameCommand}" />
     </StackLayout>
 </ContentPage>
