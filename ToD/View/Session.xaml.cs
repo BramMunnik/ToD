@@ -1,5 +1,6 @@
 using System;
 using ToD.ViewModel;
+using ToD.Model;
 
 namespace ToD
 {
@@ -61,15 +62,32 @@ namespace ToD
 
         private async void Start_Clicked(object sender, EventArgs e)
         {
-            var members = ViewModel.Members; // Assuming ViewModel.Members is an ObservableCollection<string>
+            var members = ViewModel.Members; // Dit zijn de leden die in de ViewModel staan
             if (members.Count == 0)
             {
                 await DisplayAlert("Fout", "Voeg ten minste één lid toe om het spel te starten.", "OK");
                 return;
             }
 
+            // Maak een nieuwe sessie aan en sla deze op in de database
+            var session = new SessionModel
+            {
+                SessionID = Guid.NewGuid(), // Genereer een nieuwe unieke sessie-ID
+                HostID = Guid.NewGuid(),    // Dit zou de ID van de host moeten zijn, afhankelijk van je logica
+                SelectedCategories = "[]",  // Voeg de gekozen categorieën toe als JSON string
+                DaringLevel = 3,           // Stel het daring level in
+                QuestionPool = "[]",       // Voeg een lege vraagpool toe, of vul deze in
+                QRCode = "path/to/qr/code" // Voeg de QR-code toe, indien nodig
+            };
+
+            // Sla de sessie op in de database
+            await ViewModel.SaveSessionToDatabaseAsync(session);
+            Console.WriteLine("Sessiemodel succesvol opgeslagen.");
+
+            // Navigeer naar de volgende pagina (bijv. GamePage)
             await Navigation.PushAsync(new GamePage(members));
         }
+
 
     }
 }

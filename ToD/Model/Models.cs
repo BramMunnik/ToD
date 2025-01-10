@@ -1,23 +1,36 @@
 ﻿using SQLite;
 using System;
 using System.Collections.Generic;
+using Newtonsoft.Json;
 
 namespace ToD.Model
 {
     public class User
     {
-        [PrimaryKey]
-        public Guid UserID { get; set; }
+        [PrimaryKey, AutoIncrement]
+        public int UserId { get; set; }
 
-        [NotNull]
         public string Name { get; set; }
 
-        // Navigation property (manueel te verwerken)
+        public Guid TemporaryId { get; set; } = Guid.NewGuid();
+
+        public string PreferencesJson { get; set; }
+
         [Ignore]
-        public ICollection<Session> Sessions { get; set; }
+        public Preferences Preferences
+        {
+            get => JsonConvert.DeserializeObject<Preferences>(PreferencesJson) ?? new Preferences();
+            set => PreferencesJson = JsonConvert.SerializeObject(value);
+        }
     }
 
-    public class Session
+    public class Preferences
+    {
+        public List<string> SelectedCategories { get; set; } = new();
+        public int RiskLevel { get; set; }  // Schaal van 1-5
+    }
+
+    public class SessionModel
     {
         [PrimaryKey]
         public Guid SessionID { get; set; }
@@ -25,22 +38,29 @@ namespace ToD.Model
         [NotNull]
         public Guid HostID { get; set; }
 
+        public string SelectedCategories { get; set; }
+
+        public string QuestionPool { get; set; }
+
         [Ignore]
-        public User Host { get; set; }
+        public List<string> Categories
+        {
+            get => JsonConvert.DeserializeObject<List<string>>(SelectedCategories) ?? new List<string>();
+            set => SelectedCategories = JsonConvert.SerializeObject(value);
+        }
 
-        [NotNull]
-        public string SelectedCategories { get; set; } // JSON string
+        [Ignore]
+        public List<string> Questions
+        {
+            get => JsonConvert.DeserializeObject<List<string>>(QuestionPool) ?? new List<string>();
+            set => QuestionPool = JsonConvert.SerializeObject(value);
+        }
 
-        [NotNull]
         public int DaringLevel { get; set; }
-
-        [NotNull]
-        public string QuestionPool { get; set; } // JSON string
-
         public string QRCode { get; set; }
 
         [Ignore]
-        public ICollection<Participant> Participants { get; set; }
+        public List<Participant> Participants { get; set; } = new();
     }
 
     public class Participant
@@ -51,15 +71,8 @@ namespace ToD.Model
         [NotNull]
         public Guid SessionID { get; set; }
 
-        [Ignore]
-        public Session Session { get; set; }
+        public Guid? UserID { get; set; }
 
-        public Guid? UserID { get; set; } // Nullable voor anonieme gebruikers
-
-        [Ignore]
-        public User User { get; set; }
-
-        [NotNull]
         public Guid TemporaryID { get; set; }
     }
 
@@ -68,45 +81,10 @@ namespace ToD.Model
         [PrimaryKey]
         public Guid QuestionID { get; set; }
 
-        [NotNull]
         public string QuestionText { get; set; }
-
-        [NotNull]
         public string Category { get; set; }
-
-        [NotNull]
         public int DaringLevel { get; set; }
-
-        public Guid? CreatedBy { get; set; }
-
-        [Ignore]
-        public User Creator { get; set; }
-
-        [NotNull]
         public string QuestionType { get; set; }
-
         public string PhotoLink { get; set; }
-    }
-
-    public class TemporaryStorage
-    {
-        [PrimaryKey]
-        public Guid SessionID { get; set; }
-
-        [Ignore]
-        public Session Session { get; set; }
-
-        public Guid? ActiveQuestionID { get; set; }
-
-        [Ignore]
-        public GameData ActiveQuestion { get; set; }
-
-        public Guid? CurrentPlayerID { get; set; }
-
-        [Ignore]
-        public User CurrentPlayer { get; set; }
-
-        [NotNull]
-        public string TurnOrder { get; set; } // JSON array
     }
 }

@@ -1,4 +1,8 @@
 ﻿using SQLite;
+using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using ToD.Model;
 
 namespace ToD
 {
@@ -14,8 +18,27 @@ namespace ToD
 
         private void InitializeDatabase()
         {
-            // Zorg ervoor dat de tabellen worden aangemaakt
+            // Zorg ervoor dat alle tabellen worden aangemaakt
             _database.CreateTableAsync<User>().Wait();
+            _database.CreateTableAsync<SessionModel>().Wait();
+            _database.CreateTableAsync<Participant>().Wait();
+            _database.CreateTableAsync<GameData>().Wait();
+        }
+
+        // Algemene methodes voor data interacties
+        public Task SaveItemAsync<T>(T item)
+        {
+            return _database.InsertAsync(item);
+        }
+
+        public Task<List<T>> GetItemsAsync<T>() where T : new()
+        {
+            return _database.Table<T>().ToListAsync();
+        }
+
+        public Task<int> DeleteItemAsync<T>(T item) where T : new()
+        {
+            return _database.DeleteAsync(item);
         }
     }
 }

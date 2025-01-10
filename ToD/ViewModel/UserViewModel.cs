@@ -1,20 +1,7 @@
 ﻿using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
-
-public class User
-{
-    public string Name { get; set; }
-    public Guid TemporaryId { get; set; }
-    public Preferences Preferences { get; set; }
-}
-
-public class Preferences
-{
-    public List<string> SelectedCategories { get; set; }
-    public int RiskLevel { get; set; }  // 1-5 scale
-}
-
+using ToD.Model;
 
 public class UserViewModel : INotifyPropertyChanged
 {
@@ -23,7 +10,7 @@ public class UserViewModel : INotifyPropertyChanged
 
     public ObservableCollection<User> Users
     {
-        get { return _users; }
+        get => _users;
         set
         {
             _users = value;
@@ -33,7 +20,7 @@ public class UserViewModel : INotifyPropertyChanged
 
     public User CurrentUser
     {
-        get { return _currentUser; }
+        get => _currentUser;
         set
         {
             _currentUser = value;
@@ -48,8 +35,11 @@ public class UserViewModel : INotifyPropertyChanged
 
     public void AddUser(User user)
     {
-        _users.Add(user);
-        OnPropertyChanged(nameof(Users));
+        if (user != null && !string.IsNullOrWhiteSpace(user.Name))
+        {
+            _users.Add(user);
+            OnPropertyChanged(nameof(Users));
+        }
     }
 
     public event PropertyChangedEventHandler PropertyChanged;
