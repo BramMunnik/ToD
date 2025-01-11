@@ -38,9 +38,9 @@ namespace ToD.Model
         [NotNull]
         public Guid HostID { get; set; }
 
-        public string SelectedCategories { get; set; }
+        public string SelectedCategories { get; set; } // Opslaan van meerdere geselecteerde categorieën in JSON-formaat
 
-        public string QuestionPool { get; set; }
+        public string QuestionPool { get; set; } // JSON voor interne vragen en opdrachten
 
         [Ignore]
         public List<string> Categories
@@ -50,18 +50,55 @@ namespace ToD.Model
         }
 
         [Ignore]
-        public List<string> Questions
+        public Dictionary<string, List<string>> LocalQuestions
         {
-            get => JsonConvert.DeserializeObject<List<string>>(QuestionPool) ?? new List<string>();
+            get => JsonConvert.DeserializeObject<Dictionary<string, List<string>>>(QuestionPool) ?? new Dictionary<string, List<string>>();
             set => QuestionPool = JsonConvert.SerializeObject(value);
         }
 
-        public int DaringLevel { get; set; }
+        [Ignore]
+        public List<string> QuestionsForSelectedCategories
+        {
+            get
+            {
+                var questions = new List<string>();
+                foreach (var category in Categories)
+                {
+                    questions.AddRange(GetQuestionsForCategory(category));
+                }
+                return questions;
+            }
+        }
+
+        public int DaringLevel { get; set; } // Filter op vragen afhankelijk van het niveau
         public string QRCode { get; set; }
 
         [Ignore]
         public List<Participant> Participants { get; set; } = new();
+
+        private List<string> GetQuestionsForCategory(string category)
+        {
+            switch (category)
+            {
+                case "API":
+                    return FetchQuestionsFromAPI(); // Vragen ophalen via API
+                case "List":
+                    return LocalQuestions.TryGetValue(category, out var listQuestions) ? listQuestions : new List<string>();
+                case "Assignments":
+                    return LocalQuestions.TryGetValue(category, out var assignments) ? assignments : new List<string>();
+                default:
+                    return new List<string>();
+            }
+        }
+
+        private List<string> FetchQuestionsFromAPI()
+        {
+            // Simuleer een API-aanroep voor vragen
+            return new List<string> { "API Question 1", "API Question 2", "API Question 3" };
+        }
     }
+
+
 
     public class Participant
     {

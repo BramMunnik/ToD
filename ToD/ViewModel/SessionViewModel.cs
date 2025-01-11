@@ -1,9 +1,11 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
+using System.Windows.Input;
 using ToD.Model;
 
 namespace ToD.ViewModel
@@ -23,13 +25,47 @@ namespace ToD.ViewModel
             }
         }
 
+        private ObservableCollection<string> _selectedCategories = new ObservableCollection<string>();
+        public ObservableCollection<string> SelectedCategories
+        {
+            get => _selectedCategories;
+            set
+            {
+                _selectedCategories = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public ICommand SelectCategoryCommand { get; }
+
         public SessionViewModel()
         {
-            _databaseService = new DatabaseService(); // Voeg dit toe om de database te initialiseren
+            _databaseService = new DatabaseService();
             _members = new ObservableCollection<string>();
+            SelectCategoryCommand = new Command<string>(SelectCategory);  // Koppelen van de Command
             LoadMembersAsync();
         }
 
+        // Toevoegen van categorieën aan de selectie
+        public void SelectCategory(string category)
+        {
+            if (SelectedCategories.Contains(category))
+            {
+                SelectedCategories.Remove(category);  // Verwijder de categorie als deze al is geselecteerd
+            }
+            else
+            {
+                SelectedCategories.Add(category);  // Voeg de categorie toe als deze nog niet is geselecteerd
+            }
+        }
+
+        // Methode om de geselecteerde categorieën op te slaan als JSON-string
+        public string GetSelectedCategoriesAsJson()
+        {
+            return JsonConvert.SerializeObject(SelectedCategories);  // Zet de lijst van geselecteerde categorieën om in een JSON-string
+        }
+
+        // Toevoegen, verwijderen en bewerken van leden
         public async void AddMember(string member)
         {
             if (!string.IsNullOrWhiteSpace(member) && !Members.Contains(member))
@@ -111,6 +147,7 @@ namespace ToD.ViewModel
             // Sla de sessie op in de database
             await _databaseService.SaveItemAsync(session);
         }
+
         public async Task ClearAllMembersAsync()
         {
             var users = await _databaseService.GetItemsAsync<User>();
@@ -121,6 +158,5 @@ namespace ToD.ViewModel
 
             Members.Clear(); // Ook de lokale lijst in de ViewModel leegmaken
         }
-
     }
 }
