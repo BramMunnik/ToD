@@ -5,6 +5,12 @@ using Newtonsoft.Json;
 
 namespace ToD.Model
 {
+    public class Question
+    {
+        public string Text { get; set; }
+        public bool RequiresCamera { get; set; } // Bool die aangeeft of de camera nodig is
+    }
+
     public class User
     {
         [PrimaryKey, AutoIncrement]

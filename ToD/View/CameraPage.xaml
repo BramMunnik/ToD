@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             x:Class="ToD.CameraPage"
+             BackgroundColor="White">
+
+    <StackLayout Padding="10" Spacing="20">
+        <!-- Button to capture a photo -->
+        <Button Text="Capture Photo"
+                Command="{Binding CapturePhotoCommand}" />
+
+        <!-- Image display to show the captured photo -->
+        <Image x:Name="CapturedImage"
+               Source="{Binding PhotoPath}"
+               IsVisible="{Binding PhotoPath, Converter={StaticResource NullToVisibilityConverter}}"
+               HorizontalOptions="Center" 
+               VerticalOptions="Center" />
+    </StackLayout>
+</ContentPage>

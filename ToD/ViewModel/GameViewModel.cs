@@ -5,6 +5,9 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using ToD.Services;
 using System.Collections.Generic;
+using Microsoft.Maui.ApplicationModel;
+using Microsoft.Maui.Storage;
+
 
 namespace ToD.ViewModel
 {
@@ -21,8 +24,13 @@ namespace ToD.ViewModel
             "What is your most embarrassing moment?",
             "Who was your first crush?",
             "What is your biggest regret?",
-            "What's your weirdest habit?"
+            "What's your weirdest habit?",
+            "Take a picture of something in the room.",
+            "Record a short video of yourself singing.",
+            "Take a selfie with the craziest face you can make.",
         };
+
+
 
         private List<string> availablePlayers;
         private string lastPlayer;
