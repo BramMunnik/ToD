@@ -19,16 +19,52 @@ namespace ToD.ViewModel
         private string _currentPlayer;
         private string _currentQuestion;
         private readonly List<string> _questions = new()
+{
+    // Algemene vragen
+    "Wat is je grootste angst?",
+    "Wat is je meest gênante moment?",
+    "Wat is de grootste leugen die je ooit hebt verteld?",
+    "Wie was je eerste crush?",
+    "Wat is je meest gewaagde droom?",
+    "Wat is iets wat bijna niemand over je weet?",
+    "Heb je ooit iets gestolen, zelfs iets kleins?",
+    "Wat is je grootste spijt?",
+    "Wat is het meest bizarre wat je ooit hebt gegeten?",
+    "Wie uit de groep vertrouw je het minst en waarom?",
+    "Welke eigenschap van jezelf zou je willen veranderen?",
+    "Heb je ooit een geheim van een vriend doorverteld?",
+    "Wat is je vreemdste gewoonte?",
+    "Wat is het ergste cadeau dat je ooit hebt gekregen?",
+    "Als je onzichtbaar kon zijn voor een dag, wat zou je doen?",
+
+    // Camera-opdrachten
+    "Neem een video waarin je een lied zingt alsof je op een podium staat.",
+    "Neem een video waarin je doet alsof je een beroemde acteur bent.",
+    "Neem een video waarin je 10 seconden lang hardop lacht.",
+    "Maak een foto van iets blauw in de kamer.",
+    "Maak een foto van jezelf met je meest gekke gezicht.",
+    "Maak een foto van je schoenen en plaats ze op een rare plek.",
+    "Neem een video waarin je doet alsof je een kat bent.",
+    "Neem een video waarin je drie grappige dansmoves uitvoert.",
+    "Maak een foto van iets dat begint met de letter 'B'.",
+    "Maak een foto van een willekeurig object en laat anderen raden wat het is.",
+    "Neem een video waarin je een mop vertelt, maar blijf serieus kijken.",
+    "Maak een foto van jezelf terwijl je een gek hoedje of item draagt.",
+    "Neem een video waarin je een tongue-twister zegt, zoals: 'De kat krabt de krullen van de trap.'",
+    "Maak een foto van iets in de kamer dat je nog nooit eerder hebt aangeraakt.",
+    "Neem een video waarin je fluistert alsof je een geheim deelt."
+};
+
+        private bool _requiresCamera;
+        public bool RequiresCamera
         {
-            "What's your biggest fear?",
-            "What is your most embarrassing moment?",
-            "Who was your first crush?",
-            "What is your biggest regret?",
-            "What's your weirdest habit?",
-            "Take a picture of something in the room.",
-            "Record a short video of yourself singing.",
-            "Take a selfie with the craziest face you can make.",
-        };
+            get => _requiresCamera;
+            set
+            {
+                _requiresCamera = value;
+                OnPropertyChanged();
+            }
+        }
 
 
 
@@ -72,9 +108,12 @@ namespace ToD.ViewModel
         public ICommand ChooseTruthCommand { get; }
         public ICommand ChooseDrinkCommand { get; }
         public ICommand EndGameCommand { get; }
+        public ICommand UseCameraCommand { get; }
 
         public GameViewModel(ObservableCollection<string> members, bool useApiQuestions)
         {
+            UseCameraCommand = new Command(UseCamera);
+
             Members = members;
             _useApiQuestions = useApiQuestions;
             _service = new TruthOrDareService();
@@ -96,7 +135,25 @@ namespace ToD.ViewModel
 
             GenerateRandomPlayerAndQuestion();
         }
+        private async void UseCamera()
+        {
+            try
+            {
+                var photo = await MediaPicker.CapturePhotoAsync();
+                if (photo != null)
+                {
+                    var stream = await photo.OpenReadAsync();
+                    // Verwerk of sla de foto op zoals nodig
+                    await App.Current.MainPage.DisplayAlert("Camera", "Foto is succesvol genomen!", "Ok");
+                }
+            }
+            catch (Exception ex)
+            {
+                await App.Current.MainPage.DisplayAlert("Fout", $"Kon geen foto nemen: {ex.Message}", "Ok");
+            }
 
+            GenerateRandomPlayerAndQuestion();
+        }
         public async void GenerateRandomPlayerAndQuestion()
         {
             if (availablePlayers.Count > 0)
@@ -126,7 +183,11 @@ namespace ToD.ViewModel
             }
             else
             {
-                CurrentQuestion = _questions[_random.Next(_questions.Count)];
+                var randomQuestion = _questions[_random.Next(_questions.Count)];
+                CurrentQuestion = randomQuestion;
+
+                // Stel RequiresCamera in
+                RequiresCamera = randomQuestion.Contains("Neem een video") || randomQuestion.Contains("Maak een foto");
             }
         }
 

@@ -21,15 +21,24 @@
                    HorizontalTextAlignment="Center" />
         </Frame>
 
+        <!-- Knop met standaardtekst en -command -->
         <Button Text="Truth"
                 BackgroundColor="DarkGray"
                 TextColor="White"
-                Command="{Binding ChooseTruthCommand}" />
+                Command="{Binding ChooseTruthCommand}">
+            <Button.Triggers>
+                <!-- DataTrigger voor camera-opdrachten -->
+                <DataTrigger TargetType="Button" Binding="{Binding RequiresCamera}" Value="True">
+                    <Setter Property="Text" Value="Camera" />
+                    <Setter Property="Command" Value="{Binding UseCameraCommand}" />
+                </DataTrigger>
+            </Button.Triggers>
+        </Button>
 
         <Button Text="Drink"
-        BackgroundColor="DarkGray"
-        TextColor="White"
-        Command="{Binding ChooseDrinkCommand}" />
+                BackgroundColor="DarkGray"
+                TextColor="White"
+                Command="{Binding ChooseDrinkCommand}" />
 
         <Button Text="End Game"
                 BackgroundColor="DarkGray"
