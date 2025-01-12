@@ -3,6 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:viewModel="clr-namespace:ToD.ViewModel"
              x:Class="ToD.Session"
+             BackgroundColor="#6200EE"
              Title="Session">
 
     <ContentPage.BindingContext>
@@ -16,7 +17,7 @@
 
         <!-- Titel leden -->
         <Label Text="Leden"
-               BackgroundColor="LightGray"
+               BackgroundColor="White"
                HorizontalTextAlignment="Center"
                FontSize="Medium" />
 
@@ -24,8 +25,8 @@
         <HorizontalStackLayout>
             <Entry x:Name="MemberEntry" Placeholder="Voer naam in" WidthRequest="200" />
             <Button Text="+" 
-                    BackgroundColor="#AAAAAA" 
-                    TextColor="White" 
+                    BackgroundColor="White" 
+                    TextColor="Black" 
                     Clicked="OnAddMemberClicked" />
         </HorizontalStackLayout>
 
@@ -34,28 +35,30 @@
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <ViewCell>
-                        <StackLayout Orientation="Horizontal" Padding="10">
+                        <StackLayout Orientation="Horizontal" Padding="10" Spacing="10">
                             <Label Text="{Binding}" FontSize="Medium" VerticalOptions="CenterAndExpand" />
 
                             <!-- Bewerken knop -->
                             <Button Text="Bewerken" BackgroundColor="Yellow" TextColor="Black" 
-                                    WidthRequest="80" Clicked="OnEditMemberClicked" 
-                                    CommandParameter="{Binding}" VerticalOptions="Center" />
+                            WidthRequest="100" HeightRequest="40"
+                            Clicked="OnEditMemberClicked" 
+                            CommandParameter="{Binding}" VerticalOptions="Center" />
 
                             <!-- Verwijder knop -->
                             <Button Text="Verwijderen" BackgroundColor="Red" TextColor="White" 
-                                    WidthRequest="100" Clicked="OnRemoveMemberClicked" 
-                                    CommandParameter="{Binding}" VerticalOptions="Center" />
+                            WidthRequest="120" HeightRequest="40"
+                            Clicked="OnRemoveMemberClicked" 
+                            CommandParameter="{Binding}" VerticalOptions="Center" />
                         </StackLayout>
                     </ViewCell>
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>
 
-        <StackLayout>
-            <Label Text="Use API Questions" />
+        <HorizontalStackLayout Spacing="10" VerticalOptions="Center">
+            <Label Text="Alleen vragen" VerticalOptions="Center" />
             <Switch IsToggled="{Binding UseApiQuestions}" />
-        </StackLayout>
+        </HorizontalStackLayout>
 
         <!-- Start Button -->
         <Button x:Name="Start"

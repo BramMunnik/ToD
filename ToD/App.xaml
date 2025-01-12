@@ -4,12 +4,21 @@
              xmlns:local="clr-namespace:ToD"
              x:Class="ToD.App">
     <Application.Resources>
+        <!-- Globale Resources -->
         <ResourceDictionary>
-            <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="Resources/Styles/Colors.xaml" />
-                <ResourceDictionary Source="Resources/Styles/Styles.xaml" />
-            </ResourceDictionary.MergedDictionaries>
+            <!-- Kleuren -->
+            <Color x:Key="PrimaryColor">#6200EE</Color>
+            <Color x:Key="SecondaryColor">#03DAC5</Color>
+
+            <!-- Stijlen -->
+            <Style TargetType="ContentPage">
+                <Setter Property="BackgroundColor" Value="{StaticResource PrimaryColor}" />
+                <Setter Property="Padding" Value="10" />
+            </Style>
+            <Style TargetType="Label">
+                <Setter Property="TextColor" Value="Black" />
+                <Setter Property="FontSize" Value="18" />
+            </Style>
         </ResourceDictionary>
     </Application.Resources>
 </Application>
-    

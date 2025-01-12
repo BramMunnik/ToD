@@ -12,7 +12,7 @@ public partial class JoinEnterName : ContentPage
 
         if (string.IsNullOrWhiteSpace(name))
         {
-            await DisplayAlert("Error", "Please enter your name before joining.", "OK");
+            await DisplayAlert("Fout", "Voer een naam in om te spelen", "OK");
             return;
         }
 

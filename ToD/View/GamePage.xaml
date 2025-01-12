@@ -2,20 +2,21 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="ToD.GamePage"
-             Title="Game Page">
+             BackgroundColor="#6200EE"
+             Title="Game">
 
     <StackLayout Padding="20" Spacing="30">
         <Label Text="Truth or Drink"
                FontSize="28"
                HorizontalOptions="Center" />
 
-        <Frame BackgroundColor="LightGray" CornerRadius="10" Padding="10">
+        <Frame BackgroundColor="White" CornerRadius="10" Padding="10">
             <Label Text="{Binding CurrentPlayer}" 
                    FontSize="24" 
                    HorizontalOptions="Center" />
         </Frame>
 
-        <Frame BackgroundColor="LightGray" CornerRadius="10" Padding="10">
+        <Frame BackgroundColor="White" CornerRadius="10" Padding="10">
             <Label Text="{Binding CurrentQuestion}" 
                    FontSize="18"
                    HorizontalTextAlignment="Center" />
@@ -23,8 +24,8 @@
 
         <!-- Knop met standaardtekst en -command -->
         <Button Text="Truth"
-                BackgroundColor="DarkGray"
-                TextColor="White"
+                BackgroundColor="White"
+                TextColor="Black"
                 Command="{Binding ChooseTruthCommand}">
             <Button.Triggers>
                 <!-- DataTrigger voor camera-opdrachten -->
@@ -36,13 +37,13 @@
         </Button>
 
         <Button Text="Drink"
-                BackgroundColor="DarkGray"
-                TextColor="White"
+                BackgroundColor="White"
+                TextColor="Black"
                 Command="{Binding ChooseDrinkCommand}" />
 
         <Button Text="End Game"
-                BackgroundColor="DarkGray"
-                TextColor="White"
+                BackgroundColor="White"
+                TextColor="Black"
                 Command="{Binding EndGameCommand}" />
     </StackLayout>
 </ContentPage>

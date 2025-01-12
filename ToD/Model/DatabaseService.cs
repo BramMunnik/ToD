@@ -21,8 +21,6 @@ namespace ToD
             // Zorg ervoor dat alle tabellen worden aangemaakt
             _database.CreateTableAsync<User>().Wait();
             _database.CreateTableAsync<SessionModel>().Wait();
-            _database.CreateTableAsync<Participant>().Wait();
-            _database.CreateTableAsync<GameData>().Wait();
         }
 
         // Algemene methodes voor data interacties

@@ -1,22 +1,26 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="ToD.MainPage"
-             BackgroundColor="#222222">
-    
+             BackgroundColor="#6200EE"
+             x:Class="ToD.MainPage">
+
     <VerticalStackLayout Padding="20" Spacing="15" VerticalOptions="Center">
-        <Label Text="Truth or Drink" 
-               FontSize="Header" 
-               HorizontalOptions="Center" />
-        <Button Text="Create new session" 
+        <Image Source="logot.png" WidthRequest="200" HeightRequest="200" />
+        <Button Text="Start spel" 
                 BackgroundColor="#FF6E1F" 
                 TextColor="White" 
                 HorizontalOptions="Center"
-                Clicked="GoToSessionButton_Clicked" />
-        <Button Text="Join session" 
+                Clicked="GoToSessionButton_Clicked" 
+                WidthRequest="200" 
+                HeightRequest="60"
+                FontSize="Large" />
+        <Button Text="Deelnemen" 
                 BackgroundColor="#FF6E1F" 
                 TextColor="White" 
                 HorizontalOptions="Center"
-                Clicked="JoinSessionButton_Clicked" />
+                Clicked="JoinSessionButton_Clicked" 
+                WidthRequest="200" 
+                HeightRequest="60"
+                FontSize="Large" />
     </VerticalStackLayout>
 </ContentPage>

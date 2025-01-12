@@ -16,6 +16,7 @@ namespace ToD
             BindingContext = new SessionViewModel();
         }
 
+        // Toevoegen van een lid aan de lijst
         private void OnAddMemberClicked(object sender, EventArgs e)
         {
             string memberName = MemberEntry.Text;
@@ -23,10 +24,11 @@ namespace ToD
             if (!string.IsNullOrWhiteSpace(memberName))
             {
                 ViewModel.AddMember(memberName);
-                MemberEntry.Text = string.Empty; // Clear the input field
+                MemberEntry.Text = string.Empty; // Leeg het invoerveld
             }
         }
 
+        // Bewerken van een bestaande lidnaam
         private async void OnEditMemberClicked(object sender, EventArgs e)
         {
             string oldName = (string)((Button)sender).CommandParameter;
@@ -46,6 +48,7 @@ namespace ToD
             }
         }
 
+        // Verwijderen van een lid uit de lijst
         private async void OnRemoveMemberClicked(object sender, EventArgs e)
         {
             string memberName = (string)((Button)sender).CommandParameter;
@@ -58,15 +61,12 @@ namespace ToD
             }
         }
 
+        // Start de sessie en navigeer naar de volgende pagina
         private async void Start_Clicked(object sender, EventArgs e)
         {
-            // Access the SessionViewModel from the BindingContext
             var viewModel = (SessionViewModel)BindingContext;
 
-            // Get the value of UseApiQuestions from the ViewModel
             bool useApiQuestions = viewModel.UseApiQuestions;
-
-            // Get the members list from the ViewModel
             var members = viewModel.Members;
 
             if (members.Count == 0)
@@ -75,27 +75,16 @@ namespace ToD
                 return;
             }
 
-
-            // Maak een nieuwe sessie aan en sla deze op in de database
             var session = new SessionModel
             {
-                SessionID = Guid.NewGuid(), // Genereer een nieuwe unieke sessie-ID
-                HostID = Guid.NewGuid(),    // Dit zou de ID van de host moeten zijn, afhankelijk van je logica
-                SelectedCategories = "", // Voeg de geselecteerde categorieën toe als JSON string
-                DaringLevel = 3,            // Stel het daring level in
-                QuestionPool = "[]",        // Voeg een lege vraagpool toe, of vul deze in
-                QRCode = "path/to/qr/code"  // Voeg de QR-code toe, indien nodig
+                SessionID = Guid.NewGuid(),
+                HostID = Guid.NewGuid(), // Hier kun je de daadwerkelijke host-ID invullen
             };
 
-            // Sla de sessie op in de database
             await ViewModel.SaveSessionToDatabaseAsync(session);
             Console.WriteLine("Sessiemodel succesvol opgeslagen.");
 
-            // Navigeer naar de volgende pagina (bijv. GamePage)
             await Navigation.PushAsync(new GamePage(members, useApiQuestions));
         }
-
-
-
     }
 }
