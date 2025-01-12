@@ -52,37 +52,10 @@
             </ListView.ItemTemplate>
         </ListView>
 
-        <StackLayout VerticalOptions="End" Orientation="Horizontal" Spacing="2" Padding="10">
-            <Button Text="Waarheid" HorizontalOptions="End" BackgroundColor="AntiqueWhite" TextColor="Black" Command="{Binding SelectCategoryCommand}" CommandParameter="Waarheid">
-                <Button.Triggers>
-                    <DataTrigger TargetType="Button" Binding="{Binding SelectedCategories}" Value="Waarheid">
-                        <Setter Property="BackgroundColor" Value="LightGreen"/>
-                        <Setter Property="TextColor" Value="White"/>
-                    </DataTrigger>
-                </Button.Triggers>
-            </Button>
-
-            <Button Text="Would You Rather" HorizontalOptions="FillAndExpand" BackgroundColor="AntiqueWhite" TextColor="Black" Command="{Binding SelectCategoryCommand}" CommandParameter="Would You Rather">
-                <Button.Triggers>
-                    <DataTrigger TargetType="Button" Binding="{Binding SelectedCategories}" Value="Would You Rather">
-                        <Setter Property="BackgroundColor" Value="LightGreen"/>
-                        <Setter Property="TextColor" Value="White"/>
-                    </DataTrigger>
-                </Button.Triggers>
-            </Button>
-
-            <Button Text="Uitdaging" HorizontalOptions="End" BackgroundColor="AntiqueWhite" TextColor="Black" Command="{Binding SelectCategoryCommand}" CommandParameter="Uitdaging">
-                <Button.Triggers>
-                    <DataTrigger TargetType="Button" Binding="{Binding SelectedCategories}" Value="Uitdaging">
-                        <Setter Property="BackgroundColor" Value="LightGreen"/>
-                        <Setter Property="TextColor" Value="White"/>
-                    </DataTrigger>
-                </Button.Triggers>
-            </Button>
+        <StackLayout>
+            <Label Text="Use API Questions" />
+            <Switch IsToggled="{Binding UseApiQuestions}" />
         </StackLayout>
-
-
-
 
         <!-- Start Button -->
         <Button x:Name="Start"

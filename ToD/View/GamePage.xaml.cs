@@ -8,25 +8,16 @@ namespace ToD
     {
         private GameViewModel _viewModel;
 
-        public GamePage(ObservableCollection<string> members)
+        // Modify the constructor to accept 'members' and 'useApiQuestions'
+        public GamePage(ObservableCollection<string> members, bool useApiQuestions)
         {
             InitializeComponent();
-            _viewModel = new GameViewModel(members);
+
+            // Initialize the GameViewModel with both parameters
+            _viewModel = new GameViewModel(members, useApiQuestions);
+
+            // Set the BindingContext for data-binding
             BindingContext = _viewModel;
-        }
-
-        private void OnNextClicked(object sender, EventArgs e)
-        {
-            _viewModel.GenerateRandomPlayerAndQuestion();
-        }
-
-        private async void OnEndGameClicked(object sender, EventArgs e)
-        {
-            bool endGame = await DisplayAlert("End Game", "Weet je zeker dat je het spel wilt beëindigen?", "Ja", "Nee");
-            if (endGame)
-            {
-                await Navigation.PopToRootAsync();
-            }
         }
     }
 }

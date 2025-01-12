@@ -12,6 +12,20 @@ namespace ToD.ViewModel
 {
     public class SessionViewModel : INotifyPropertyChanged
     {
+
+        private SessionModel _session = new SessionModel();
+
+        private bool _useApiQuestions;
+        public bool UseApiQuestions
+        {
+            get => _useApiQuestions;
+            set
+            {
+                _useApiQuestions = value;
+                OnPropertyChanged();
+            }
+        }
+
         private readonly DatabaseService _databaseService;
 
         private ObservableCollection<string> _members;

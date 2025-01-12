@@ -10,18 +10,36 @@ namespace ToD.ViewModel
 {
     public class GameViewModel : INotifyPropertyChanged
     {
+
         private readonly TruthOrDareService _service;
         private readonly Random _random;
         private string _currentPlayer;
         private string _currentQuestion;
+        private readonly List<string> _questions = new()
+        {
+            "What's your biggest fear?",
+            "What is your most embarrassing moment?",
+            "Who was your first crush?",
+            "What is your biggest regret?",
+            "What's your weirdest habit?"
+        };
 
-        // Bijhouden hoeveel keer elke speler 'truth' en 'drink' kiest
-        public Dictionary<string, (int truthCount, int drinkCount)> PlayerChoices { get; set; }
+        private List<string> availablePlayers;
+        private string lastPlayer;
+
+        private bool _useApiQuestions; // Schakeloptie
+        public bool UseApiQuestions
+        {
+            get => _useApiQuestions;
+            set
+            {
+                _useApiQuestions = value;
+                OnPropertyChanged();
+            }
+        }
 
         public ObservableCollection<string> Members { get; set; }
-
-        private List<string> availablePlayers; // Lijst met beschikbare spelers
-        private string lastPlayer; // Bijhouden van de vorige speler
+        public Dictionary<string, (int truthCount, int drinkCount)> PlayerChoices { get; set; }
 
         public string CurrentPlayer
         {
@@ -47,14 +65,22 @@ namespace ToD.ViewModel
         public ICommand ChooseDrinkCommand { get; }
         public ICommand EndGameCommand { get; }
 
-        public GameViewModel(ObservableCollection<string> members)
+        public GameViewModel(ObservableCollection<string> members, bool useApiQuestions)
         {
             Members = members;
+            _useApiQuestions = useApiQuestions;
             _service = new TruthOrDareService();
             _random = new Random();
+            availablePlayers = new List<string>(Members);
+            lastPlayer = null;
+            UseApiQuestions = useApiQuestions; // Set the value for UseApiQuestions
+
+            // Initialiseer PlayerChoices
             PlayerChoices = new Dictionary<string, (int truthCount, int drinkCount)>();
-            availablePlayers = new List<string>(Members); // Zet de originele lijst in de beschikbare lijst
-            lastPlayer = null; // Initialiseer de vorige speler
+            foreach (var member in Members)
+            {
+                PlayerChoices[member] = (0, 0);
+            }
 
             ChooseTruthCommand = new Command(ChooseTruth);
             ChooseDrinkCommand = new Command(ChooseDrink);
@@ -67,74 +93,64 @@ namespace ToD.ViewModel
         {
             if (availablePlayers.Count > 0)
             {
-                // Kies een willekeurige speler uit de beschikbare spelerslijst, maar zorg ervoor dat de vorige speler niet opnieuw wordt gekozen
                 string chosenPlayer = availablePlayers[_random.Next(availablePlayers.Count)];
-
-                // Als de gekozen speler dezelfde is als de vorige speler, kies dan opnieuw
                 while (chosenPlayer == lastPlayer)
                 {
                     chosenPlayer = availablePlayers[_random.Next(availablePlayers.Count)];
                 }
 
                 CurrentPlayer = chosenPlayer;
-                lastPlayer = chosenPlayer; // Zet de vorige speler
+                lastPlayer = chosenPlayer;
 
-                availablePlayers.Remove(CurrentPlayer); // Verwijder deze speler van de lijst
+                availablePlayers.Remove(CurrentPlayer);
             }
             else
             {
-                // Als alle spelers aan de beurt zijn geweest, reset de lijst
                 availablePlayers = new List<string>(Members);
-                lastPlayer = null; // Reset de vorige speler
-                GenerateRandomPlayerAndQuestion(); // Kies opnieuw een speler
+                lastPlayer = null;
+                GenerateRandomPlayerAndQuestion();
+                return;
             }
 
-            CurrentQuestion = await _service.GetRandomQuestionAsync();
+            if (UseApiQuestions)
+            {
+                CurrentQuestion = await _service.GetRandomQuestionAsync();
+            }
+            else
+            {
+                CurrentQuestion = _questions[_random.Next(_questions.Count)];
+            }
         }
 
         public void ChooseTruth()
         {
             if (PlayerChoices.ContainsKey(CurrentPlayer))
             {
-                var currentChoice = PlayerChoices[CurrentPlayer];
-                PlayerChoices[CurrentPlayer] = (currentChoice.truthCount + 1, currentChoice.drinkCount);
+                var (truthCount, drinkCount) = PlayerChoices[CurrentPlayer];
+                PlayerChoices[CurrentPlayer] = (truthCount + 1, drinkCount);
             }
-            else
-            {
-                PlayerChoices[CurrentPlayer] = (1, 0); // Eerste keuze is 'truth'
-            }
-
-            GenerateRandomPlayerAndQuestion(); // Genereer nieuwe speler en vraag
+            GenerateRandomPlayerAndQuestion();
         }
 
         public void ChooseDrink()
         {
             if (PlayerChoices.ContainsKey(CurrentPlayer))
             {
-                var currentChoice = PlayerChoices[CurrentPlayer];
-                PlayerChoices[CurrentPlayer] = (currentChoice.truthCount, currentChoice.drinkCount + 1);
+                var (truthCount, drinkCount) = PlayerChoices[CurrentPlayer];
+                PlayerChoices[CurrentPlayer] = (truthCount, drinkCount + 1);
             }
-            else
-            {
-                PlayerChoices[CurrentPlayer] = (0, 1); // Eerste keuze is 'drink'
-            }
-
-            GenerateRandomPlayerAndQuestion(); // Genereer nieuwe speler en vraag
+            GenerateRandomPlayerAndQuestion();
         }
 
         public async void EndGame()
         {
-            // Genereer de tekst voor het scoreboard
             var scoreboard = "";
             foreach (var player in PlayerChoices)
             {
                 scoreboard += $"{player.Key} - Truth: {player.Value.truthCount}, Drink: {player.Value.drinkCount}\n";
             }
 
-            // Toon het scoreboard als een pop-up
             await App.Current.MainPage.DisplayAlert("Scoreboard", scoreboard, "Ok");
-
-            // Navigeer naar de MainPage na het sluiten van de pop-up
             await App.Current.MainPage.Navigation.PopToRootAsync();
         }
 
