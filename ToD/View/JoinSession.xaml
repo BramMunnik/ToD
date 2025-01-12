@@ -11,17 +11,6 @@
                FontSize="30"
                HorizontalOptions="Center" />
 
-        <!-- Scan QR -->
-        <StackLayout HorizontalOptions="Center">
-            <Image Source="qr_icon.png"
-                   HeightRequest="100"
-                   WidthRequest="100"
-                   HorizontalOptions="Center" />
-            <Label Text="scan qr"
-                   FontSize="16"
-                   HorizontalOptions="Center" />
-        </StackLayout>
-
         <!-- Room code invoer -->
         <StackLayout HorizontalOptions="Center" WidthRequest="200">
             <Label Text="Vul sessie nummer in"
